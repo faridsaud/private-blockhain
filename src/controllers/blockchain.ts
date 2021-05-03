@@ -16,7 +16,7 @@ export const getBlockByHeight = (
       }
       return res.status(200).json(block);
     } catch (e) {
-      return res.status(500).send(e);
+      return res.status(500).send(e.message);
     }
   };
 };
@@ -35,7 +35,7 @@ export const requestOwnership = (
       );
       return res.status(200).json(message);
     } catch (e) {
-      return res.status(500).send(e);
+      return res.status(500).send(e.message);
     }
   };
 };
@@ -63,7 +63,7 @@ export const submitStar = (blockchain: Blockchain): RequestHandler<any> => {
       }
       return res.status(500).send("An error happened!");
     } catch (e) {
-      return res.status(500).send(e);
+      return res.status(500).send(e.message);
     }
   };
 };
@@ -81,7 +81,7 @@ export const getBlockByHash = (blockchain: Blockchain): RequestHandler<any> => {
       }
       return res.status(404).send("Block Not Found!");
     } catch (e) {
-      return res.status(500).send(e);
+      return res.status(500).send(e.message);
     }
   };
 };
@@ -101,7 +101,18 @@ export const getStarsByOwner = (
       }
       return res.status(404).send("Block Not Found!");
     } catch (e) {
-      return res.status(500).send(e);
+      return res.status(500).send(e.message);
+    }
+  };
+};
+
+export const validateChain = (blockchain: Blockchain): RequestHandler<any> => {
+  return async (req: any, res: any) => {
+    try {
+      const errors = await blockchain.validateChain();
+      return res.status(200).json({ errors });
+    } catch (e) {
+      return res.status(500).send(e.message);
     }
   };
 };

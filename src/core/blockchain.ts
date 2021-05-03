@@ -1,9 +1,5 @@
-// v4.x.x
-
 import bitcoinMessage from "bitcoinjs-message";
 import { Block } from "./block";
-
-const bitcoin = require("bitcoinjs-lib");
 
 export class Blockchain {
   chain: Array<Block>;
@@ -120,7 +116,7 @@ export class Blockchain {
     return stars;
   };
 
-  validateChain = async (): Promise<Array<Block & { error: Error }>> => {
+  validateChain = async (): Promise<Array<Block & { error: string }>> => {
     const errorLog = await Promise.all(
       this.chain.map(async (block: Block, i: number) => {
         if (i === 0) {
@@ -143,11 +139,11 @@ export class Blockchain {
           ? null
           : {
               ...block,
-              error: new Error("Block has been tampered."),
+              error: "Block has been tampered.",
             };
       })
     );
-    return errorLog.filter((e: any) => !!e) as Array<Block & { error: Error }>;
+    return errorLog.filter((e: any) => !!e) as Array<Block & { error: string }>;
   };
 }
 

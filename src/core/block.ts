@@ -28,7 +28,13 @@ export class Block {
   }
 
   private generateBlockHash = (): string => {
-    return SHA256(JSON.stringify(this)).toString();
+    const blockData = {
+      height: this.height,
+      timeStamp: this.timeStamp,
+      body: this.body,
+      previousHash: this.previousHash,
+    };
+    return SHA256(JSON.stringify(blockData)).toString();
   };
 
   validate = async (): Promise<boolean> => {
