@@ -120,16 +120,35 @@ export class Blockchain {
     return stars;
   };
 
-  // validateChain = async (): Promise<Array<boolean>> => {
-  //   const errorLog = [];
-  //   this.chain.forEach((block: Block, i: number) => {
-  //     if (i > 0) {
-  //       const isBlockValid = block.isValid();
-  //       const prevHash = this.chain[i-1].h
-  //     }
-  //   });
-  //   return new Promise(async (resolve, reject) => {});
-  // };
+  validateChain = async (): Promise<Array<Block & { error: Error }>> => {
+    const errorLog = await Promise.all(
+      this.chain.map(async (block: Block, i: number) => {
+        if (i === 0) {
+          return null;
+        }
+        const isValid = async (
+          currentBlock: Block,
+          nextBlock: Block | undefined
+        ) => {
+          if (!nextBlock) {
+            return currentBlock.validate();
+          }
+          return (
+            (await currentBlock.validate()) &&
+            currentBlock.hash === nextBlock.previousHash
+          );
+        };
+        const isBlockValid = await isValid(block, this.chain[i + 1]);
+        return isBlockValid
+          ? null
+          : {
+              ...block,
+              error: new Error("Block has been tampered."),
+            };
+      })
+    );
+    return errorLog.filter((e: any) => !!e) as Array<Block & { error: Error }>;
+  };
 }
 
 export default Block;

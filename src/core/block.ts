@@ -31,10 +31,10 @@ export class Block {
     return SHA256(JSON.stringify(this)).toString();
   };
 
-  isValid = async (): Promise<boolean> => {
+  validate = async (): Promise<boolean> => {
     const prevHash = this.hash;
-    const newHash = this.generateBlockHash();
-    return prevHash === newHash;
+    this.hash = this.generateBlockHash();
+    return prevHash === this.hash;
   };
 
   getData = async () => {
