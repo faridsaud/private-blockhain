@@ -1,5 +1,6 @@
 # Private Blockchain
 
+Basic private blockchain using a Bitcoin wallet
 
 
 ## Getting Started
