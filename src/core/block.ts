@@ -43,7 +43,7 @@ export class Block {
     return prevHash === this.hash;
   };
 
-  getData = async () => {
+  getData = async (): Promise<any> => {
     if (this.height === "0") {
       throw new Error("Can not obtain data from genesis block");
     }

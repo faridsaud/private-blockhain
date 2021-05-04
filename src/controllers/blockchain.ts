@@ -21,7 +21,7 @@ export const getBlockByHeight = (
   };
 };
 
-export const requestOwnership = (
+export const requestValidation = (
   blockchain: Blockchain
 ): RequestHandler<any> => {
   return async (req: any, res: any) => {
@@ -121,6 +121,6 @@ export default {
   getStarsByOwner,
   getBlockByHash,
   getBlockByHeight,
-  requestOwnership,
+  requestValidation,
   submitStar,
 };

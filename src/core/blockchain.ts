@@ -48,7 +48,7 @@ export class Blockchain {
       .slice(0, -3)}:starRegistry`;
   };
 
-  private isMessageTimeValid = (message: string) => {
+  private isMessageTimeValid = (message: string): boolean => {
     const messageTime = parseInt(message.split(":")[1], 10);
     const currentTime = parseInt(
       new Date().getTime().toString().slice(0, -3),
@@ -62,7 +62,7 @@ export class Blockchain {
     message: string,
     address: string,
     signature: string
-  ) => {
+  ): boolean => {
     return bitcoinMessage.verify(message, address, signature, undefined, true);
   };
 

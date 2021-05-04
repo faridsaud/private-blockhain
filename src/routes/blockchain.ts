@@ -4,7 +4,7 @@ import {
   getBlockByHash,
   getBlockByHeight,
   getStarsByOwner,
-  requestOwnership,
+  requestValidation,
   submitStar,
   validateChain,
 } from "../controllers/blockchain";
@@ -12,11 +12,11 @@ import {
 export const getBlockChainRouter = (blockchain: Blockchain): Router => {
   const router = express.Router();
   router.get("/blocks/height/:height", getBlockByHeight(blockchain));
-  router.post("/requestValidation", requestOwnership(blockchain));
-  router.post("/submitStart", submitStar(blockchain));
-  router.post("/validateChain", validateChain(blockchain));
   router.get("/blocks/hash/:hash", getBlockByHash(blockchain));
   router.get("/blocks/:address", getStarsByOwner(blockchain));
+  router.post("/requestValidation", requestValidation(blockchain));
+  router.post("/submitStart", submitStar(blockchain));
+  router.post("/validateChain", validateChain(blockchain));
   return router;
 };
 
